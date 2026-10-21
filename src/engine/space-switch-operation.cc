@@ -193,6 +193,12 @@ void ContinuousSpaceSwitchOperation::SetPositionLocked(
 
 void ContinuousSpaceSwitchOperation::CommitLocked(
     CGEventSink* absl_nonnull event_sink) {
+  // A shortcut at a Space boundary can be clamped to its origin. There is no
+  // Dock gesture to cancel unless we have actually started one.
+  if (!gesture_started_) {
+    return;
+  }
+
   VLOG(1) << "Commit(): origin_position_=" << origin_position_
           << ", current_position_=" << current_position_
           << ", latest_direction_=" << latest_direction_

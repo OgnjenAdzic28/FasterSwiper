@@ -55,6 +55,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 @main
 struct FasterSwiperApp: App {
+    private let applicationName =
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
+        ?? "FasterSwiper"
     @State private var daemonManager: DaemonManager
     @State private var settingsViewModel: SettingsViewModel
     @Environment(\.settingsStore) private var settingsStore
@@ -77,11 +80,11 @@ struct FasterSwiperApp: App {
         @Bindable var settingsStore = settingsStore
 
         MenuBarExtra(
-            "FasterSwiper",
+            applicationName,
             systemImage: "appwindow.swipe.rectangle",
             isInserted: !$settingsStore.hideMenuBarIcon
         ) {
-            Button("About FasterSwiper", systemImage: "info.circle") {
+            Button("About \(applicationName)", systemImage: "info.circle") {
                 openAbout()
             }
 
@@ -110,7 +113,7 @@ struct FasterSwiperApp: App {
                 openSettings()
             }
 
-            Button("Quit FasterSwiper", systemImage: "xmark.rectangle") {
+            Button("Quit \(applicationName)", systemImage: "xmark.rectangle") {
                 NSApplication.shared.terminate(nil)
             }
         }

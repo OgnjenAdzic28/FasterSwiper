@@ -149,7 +149,7 @@ absl::StatusOr<Hotkey> ParseHotkeyForHotkeyType(
                    CFArrayOptionalGetAs<CGEventFlags>(parameters_array, 2),
                    _ << ctx << " parameters[2]");
   if (maybe_modifiers.has_value()) {
-    result.modifiers &= *maybe_modifiers;
+    result.modifiers = *maybe_modifiers & kModifierKeyMask;
   }
 
   return result;
@@ -172,20 +172,24 @@ absl::StatusOr<Hotkey> LoadHotkeyForHotkeyType(
 absl::StatusOr<HotkeyConfigurations> LoadHotkeyConfiguration() {
   ASSIGN_OR_RETURN(CFUniquePtr<CFDictionaryRef> all_hotkey_settings,
                    LoadAllHotkeysSettings());
+  return ParseHotkeyConfiguration(all_hotkey_settings.get());
+}
 
+absl::StatusOr<HotkeyConfigurations> ParseHotkeyConfiguration(
+    CFDictionaryRef all_hotkey_settings) {
   HotkeyConfigurations result{};
-  ASSIGN_OR_RETURN(result.move_space_left,
-                   LoadHotkeyForHotkeyType(HotkeyType::kMoveSpaceLeft,
-                                           all_hotkey_settings.get()));
+  ASSIGN_OR_RETURN(
+      result.move_space_left,
+      LoadHotkeyForHotkeyType(HotkeyType::kMoveSpaceLeft, all_hotkey_settings));
   ASSIGN_OR_RETURN(result.move_space_right,
                    LoadHotkeyForHotkeyType(HotkeyType::kMoveSpaceRight,
-                                           all_hotkey_settings.get()));
+                                           all_hotkey_settings));
   ASSIGN_OR_RETURN(result.open_mission_control,
                    LoadHotkeyForHotkeyType(HotkeyType::kOpenMissionControl,
-                                           all_hotkey_settings.get()));
-  ASSIGN_OR_RETURN(result.open_app_expose,
-                   LoadHotkeyForHotkeyType(HotkeyType::kOpenAppExpose,
-                                           all_hotkey_settings.get()));
+                                           all_hotkey_settings));
+  ASSIGN_OR_RETURN(
+      result.open_app_expose,
+      LoadHotkeyForHotkeyType(HotkeyType::kOpenAppExpose, all_hotkey_settings));
 
   return result;
 }

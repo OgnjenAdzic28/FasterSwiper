@@ -144,3 +144,15 @@ cc_test(
         "@googletest//:gtest_main",
     ],
 )
+
+cc_test(
+    name = "space-switch-operation_test",
+    srcs = ["space-switch-operation_test.cc"],
+    deps = [
+        ":axis-adapter",
+        ":const",
+        ":space-switch-operation",
+        "//src:macos-private",
+        "@googletest//:gtest_main",
+    ],
+)

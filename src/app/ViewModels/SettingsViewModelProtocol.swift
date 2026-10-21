@@ -73,6 +73,7 @@ public protocol SettingsViewModelProtocol: AnyObject, Observable {
     var versionText: String { get }
 
     func refreshLaunchAtLogin()
+    func applyResponsiveHorizontalPreset()
     func toggleDaemon()
     func quitApplication()
 }

@@ -69,7 +69,7 @@ struct GeneralSettingsView<VM: SettingsViewModelProtocol>: View {
                     Button("Toggle") {
                         viewModel.toggleDaemon()
                     }
-                    Button("Quit FasterSwiper", role: .destructive) {
+                    Button("Quit", role: .destructive) {
                         viewModel.quitApplication()
                     }
                 }
@@ -80,7 +80,7 @@ struct GeneralSettingsView<VM: SettingsViewModelProtocol>: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Toggle("Hide menu bar icon", isOn: $viewModel.hideMenuBarIcon)
                     if viewModel.hideMenuBarIcon {
-                        Text("Open FasterSwiper.app to get back to this window.")
+                        Text("Open the app again to return to settings.")
                             .font(.callout)
                             .foregroundStyle(.secondary)
                             .padding(.trailing, 48)
@@ -112,12 +112,19 @@ struct AnimationSettingsView<VM: SettingsViewModelProtocol>: View {
                 }
 
                 Group {
+                    LabeledContent("Responsive slide") {
+                        Button("Use 160 ms preset") {
+                            viewModel.applyResponsiveHorizontalPreset()
+                        }
+                        .help("A short slide that slows smoothly as it arrives.")
+                    }
+
                     LabeledContent("Duration") {
                         HStack(spacing: 8) {
                             Slider(
                                 value: $viewModel.horizontalAnimationDurationMs,
                                 in: 0...1000,
-                                step: 50
+                                step: 10
                             )
                             .labelsHidden()
                             .frame(width: 140)
@@ -305,7 +312,10 @@ struct AboutSettingsView<VM: SettingsViewModelProtocol>: View {
                         .resizable()
                         .frame(width: 96, height: 96)
 
-                        Text("FasterSwiper")
+                        Text(
+                            Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
+                                ?? "FasterSwiper"
+                        )
                             .font(.title2.weight(.bold))
 
                         Text(viewModel.versionText)
