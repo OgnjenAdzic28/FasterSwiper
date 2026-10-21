@@ -99,6 +99,7 @@ cc_library(
     srcs = ["event.cc"],
     hdrs = ["event.h"],
     deps = [
+        ":ApplicationServices",
         ":CoreFoundation",
         ":cf-util",
         ":compatibility",
@@ -152,6 +153,17 @@ cc_library(
     deps = [
         ":CoreFoundation",
         ":Skylight",
+    ],
+)
+
+cc_test(
+    name = "hotkeys_test",
+    srcs = ["hotkeys_test.cc"],
+    deps = [
+        ":cf-util",
+        ":event",
+        ":hotkeys",
+        "@googletest//:gtest_main",
     ],
 )
 

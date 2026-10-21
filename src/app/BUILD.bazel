@@ -47,3 +47,19 @@ macos_dmg(
     src = ":FasterSwiper_app",
     tags = ["manual"],
 )
+
+macos_application(
+    name = "FasterSwiper_local_app",
+    bundle_id = "com.ognjenadzic.FasterSwiper.Local",
+    bundle_name = "FasterSwiper Local",
+    infoplists = [
+        "Info.plist",
+        "LocalInfo.plist",
+    ],
+    minimum_os_version = "26.0",
+    tags = ["manual"],
+    deps = [
+        ":FasterSwiper_lib",
+        "@abseil-cpp//absl/log:flags",
+    ],
+)

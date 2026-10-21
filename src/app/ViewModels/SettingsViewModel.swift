@@ -97,6 +97,16 @@ final class SettingsViewModel: SettingsViewModelProtocol {
         }
     }
 
+    func applyResponsiveHorizontalPreset() {
+        var options = settingsStore.daemonOptions
+        options.horizontalSettings.duration = toProtoDuration(
+            fromNanoseconds: 160_000_000
+        )
+        options.horizontalSettings.easingFunction = .quadraticEaseOut
+        settingsStore.daemonOptions = options
+        scheduleRestart()
+    }
+
     // MARK: - Vertical animation settings
 
     var verticalEnabled: Bool {

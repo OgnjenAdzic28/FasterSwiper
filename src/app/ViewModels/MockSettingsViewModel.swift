@@ -45,6 +45,10 @@ public final class MockSettingsViewModel: SettingsViewModelProtocol {
     public var versionText: String = "Version v99.99.99 (1234abc, dirty)"
 
     public func refreshLaunchAtLogin() {}
+    public func applyResponsiveHorizontalPreset() {
+        horizontalAnimationDurationMs = 160
+        horizontalSelectedEasingFunctionTag = 1
+    }
     public func toggleDaemon() {}
     public func quitApplication() {}
 }

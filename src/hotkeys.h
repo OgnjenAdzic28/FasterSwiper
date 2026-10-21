@@ -59,4 +59,9 @@ struct HotkeyConfigurations {
 
 absl::StatusOr<HotkeyConfigurations> LoadHotkeyConfiguration();
 
+// Parses a snapshot of AppleSymbolicHotKeys without reading or changing the
+// user's preferences.
+absl::StatusOr<HotkeyConfigurations> ParseHotkeyConfiguration(
+    CFDictionaryRef all_hotkey_settings);
+
 }  // namespace fasterswiper
